@@ -27,10 +27,9 @@ const token = "5585280260:AAH-TP7PBknDFn5hMSLJYem18lWKaxGXKqo";
         //getPost(ctx)
     })
     await bot.launch()
-    const browserFetcher = puppeteer.createBrowserFetcher();
-    let revisionInfo = await browserFetcher.download('884014');
+
     const browser = await puppeteer.launch({
-        executablePath: revisionInfo.executablePath,
+        executablePath: '/usr/bin/chromium-browser',
         ignoreDefaultArgs: ['--disable-extensions'],
         args: ['--no-sandbox', "--disabled-setupid-sandbox",'--use-gl=egl'],
         headless: true,
