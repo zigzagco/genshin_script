@@ -9,8 +9,6 @@ const { Telegraf } = require('telegraf')
 const Post = require('./models/Post');
 const mongoose = require("mongoose");
 const requests = require("request");
-const browserFetcher = puppeteer.createBrowserFetcher();
-let revisionInfo = await browserFetcher.download('884014');
 
 
 const start= new Date().getTime();
@@ -29,6 +27,8 @@ const token = "5585280260:AAH-TP7PBknDFn5hMSLJYem18lWKaxGXKqo";
         //getPost(ctx)
     })
     await bot.launch()
+    const browserFetcher = puppeteer.createBrowserFetcher();
+    let revisionInfo = await browserFetcher.download('884014');
     const browser = await puppeteer.launch({
         executablePath: revisionInfo.executablePath,
         args: ['--no-sandbox', "--disabled-setupid-sandbox"],
