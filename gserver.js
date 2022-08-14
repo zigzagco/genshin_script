@@ -1,13 +1,9 @@
 "use strict"
-
 const puppeteer = require('puppeteer-extra')
 const StealthPlugin = require('puppeteer-extra-plugin-stealth')
-//const telegram = require('node-telegram-bot-api')
 puppeteer.use(StealthPlugin())
 const fs = require('fs').promises;
 const { Telegraf } = require('telegraf')
-const Post = require('./models/Post');
-const mongoose = require("mongoose");
 const requests = require("request");
 
 
@@ -15,9 +11,8 @@ const requests = require("request");
 const start= new Date().getTime();
 const token = "5585280260:AAH-TP7PBknDFn5hMSLJYem18lWKaxGXKqo"
 let iter = 0
-const chat_id=-610223069
 
-var filescount;
+let filescount;
 const dir = './cookies_bank';
 fs.readdir(dir).then(r => {
     filescount=r.length - 1
@@ -26,10 +21,10 @@ fs.readdir(dir).then(r => {
     console.log("script started")
     const bot = new Telegraf(token)
     bot.command('getiteminfo',(ctx) => {
-        getPostItems(ctx)
+        posttotg("бот работает, и это хорошо)")
     })
     bot.command('accauntinfo',(ctx) =>{
-        getPost(ctx)
+        posttotg("бот работает, и это хорошо)")
     })
     await bot.launch()
     posttotg("бот перезапущен 😊")
@@ -38,12 +33,7 @@ fs.readdir(dir).then(r => {
     const notify=1800000
     setInterval(async function intervalFunc() {
         posttotg('автокрутка начата 6h')
-        const browser = await puppeteer.launch({
-            //executablePath: '/usr/bin/chromium-browser'
-            headless: false,
-            args: [],
-            //slowMo: 300,
-        });
+        const browser = await puppeteer.launch({ executablePath: '/usr/bin/google-chrome-stable', headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'] });
         try {
             posttotg('автокрутка запущена 😊')
             for (let i=0;i<filescount;i++){
@@ -96,7 +86,6 @@ fs.readdir(dir).then(r => {
                 const arr = await page.evaluate(() => Array.from(document.getElementsByClassName('profile-item-left-name'), e => e.innerText));
                 console.log(value)
                 console.log(arr)
-                await postTodb(i.toString(),value.toString(),arr)
                 posttotg("Баланс:"+value.toString()+"\n"+"предметы: "+arr)
             }catch (e){
                 console.log("предметов нет")
@@ -120,88 +109,6 @@ fs.readdir(dir).then(r => {
         requests.post(encodedURI)
         console.log("ok")
     }
-    function getPostItems(ctx){
-        const DB_URL = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000';
-        //const DB_URL = 'mongodb://192.168.5.125:27017/?directConnection=true&serverSelectionTimeoutMS=2000';
-        if (mongoose.connection.readyState === 0) {
-            mongoose.connect(DB_URL);
-        }
-        Post.find({}, null, {sort: 'критерий сортировки'},function (err, res) {
-            fitem(res.map((num) => num.id),res.map((num) => num.items),ctx)
-        });
-    }
-    function fitem(idss,items,ctx) {
-        let stringg
-        let kstr=""
-        let obsh_money
-        let money=0
-        for (let l=0;l<idss.length;l++){
-            stringg=kstr+"id: "+idss[l]+"\n"+"предметы: "+items[l]+"\n"
-            kstr=stringg
-        }
-        ctx.reply(kstr)
-    }
-    //----------------------get post from db------------------------------
-    function getPost(ctx){
-        const DB_URL = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000';
-        //const DB_URL = 'mongodb://192.168.5.125:27017/?directConnection=true&serverSelectionTimeoutMS=2000';
-        if (mongoose.connection.readyState === 0) {
-            mongoose.connect(DB_URL);
-        }
-        Post.find({}, null, {sort: 'критерий сортировки'},function (err, res) {
-            f(res.map((num) => num.id),res.map((num) => num.title),ctx)
-        });
-    }
-    function f(idss,amound,ctx) {
-        let stringg
-        let kstr=""
-        let obsh_money
-        let money=0
-        for (let l=0;l<idss.length;l++){
-            stringg=kstr+"id: "+idss[l]+"  деньги: "+amound[l]+"\n"
-            kstr=stringg
-            obsh_money=money+parseInt(amound[l])
-            money=obsh_money
-        }
-        ctx.reply(kstr+"всего: "+money.toString())
-    }
-    //----------------------get post from db------------------------------
-
-    //----------------------post to db------------------------------
-    function postTodb(pageId,pageTitle,arr){
-        if (pageId !=null && pageTitle !=null){
-            upsertPost({
-                id: pageId,
-                title: pageTitle,
-                items: arr
-            });
-            console.log("post to db")
-        }else {
-            console.log("dont post to db")
-        }
-    }
-    function upsertPost(postObj) {
-        const DB_URL = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000';
-        //const DB_URL = 'mongodb://192.168.5.125:27017/?directConnection=true&serverSelectionTimeoutMS=2000';
-        if (mongoose.connection.readyState === 0) {
-            mongoose.connect(DB_URL);
-        }
-        const conditions = {
-            id: postObj.id
-        };
-        const options = {
-            upsert: true,
-            new: true,
-            setDefaultsOnInsert: true
-        };
-
-        Post.findOneAndUpdate(conditions, postObj, options, (err, result) => {
-            if (err) {
-                throw err;
-            }
-        });
-    }
-    //----------------------post to db end------------------------------
 
     const end = new Date().getTime();
     console.log('Time to execute:' + (end - start)/1000 +'sec');
