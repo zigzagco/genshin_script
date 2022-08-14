@@ -32,7 +32,7 @@ const token = "5585280260:AAH-TP7PBknDFn5hMSLJYem18lWKaxGXKqo";
     const browser = await puppeteer.launch({
         executablePath: revisionInfo.executablePath,
         ignoreDefaultArgs: ['--disable-extensions'],
-        args: ['--no-sandbox', "--disabled-setupid-sandbox"],
+        args: ['--no-sandbox', "--disabled-setupid-sandbox",'--use-gl=egl'],
         headless: true,
         slowMo: 300,
     });
