@@ -26,10 +26,11 @@ fs.readdir(dir).then(r => {
     console.log("script started")
     const bot = new Telegraf(token)
     bot.command('getiteminfo',(ctx) => {
-        getPostItems(ctx)
+        //getPostItems(ctx)
     })
     bot.command('accauntinfo',(ctx) =>{
-        getPost(ctx)
+        //getPost(ctx)
+        posttotg('ahah')
     })
     await bot.launch()
     posttotg("бот перезапущен 😊")
@@ -39,7 +40,7 @@ fs.readdir(dir).then(r => {
     //setInterval(async function intervalFunc() {
         posttotg('автокрутка начата 6h')
         const browser = await puppeteer.launch({
-            //executablePath: '/usr/bin/chromium-browser'
+            executablePath: '/usr/bin/chromium-browser',
             headless: false,
             args: [],
             //slowMo: 300,
@@ -96,7 +97,7 @@ fs.readdir(dir).then(r => {
                 const arr = await page.evaluate(() => Array.from(document.getElementsByClassName('profile-item-left-name'), e => e.innerText));
                 console.log(value)
                 console.log(arr)
-                await postTodb(i.toString(),value.toString(),arr)
+                //await postTodb(i.toString(),value.toString(),arr)
                 posttotg("Баланс:"+value.toString()+"\n"+"предметы: "+arr)
             }catch (e){
                 console.log("предметов нет")
