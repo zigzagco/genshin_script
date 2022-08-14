@@ -9,7 +9,8 @@ const { Telegraf } = require('telegraf')
 const Post = require('./models/Post');
 const mongoose = require("mongoose");
 const requests = require("request");
-
+const browserFetcher = puppeteer.createBrowserFetcher();
+let revisionInfo = await browserFetcher.download('884014');
 
 
 const start= new Date().getTime();
@@ -28,30 +29,32 @@ const token = "5585280260:AAH-TP7PBknDFn5hMSLJYem18lWKaxGXKqo";
         //getPost(ctx)
     })
     await bot.launch()
-    posttotg("бот перезапущен 😊")
-    //========== Server script ===========
-    const hour=21600000
-    const notify=1800000
-    //setInterval(async function intervalFunc() {
-    posttotg('автокрутка начата 6h')
-    //const browser = await puppeteer.launch({
-        //executablePath: '/usr/bin/chromium-browser'
-        //headless: false,
-        //args: [],
-        //slowMo: 300,
-    //});
+    const browser = await puppeteer.launch({
+        executablePath: revisionInfo.executablePath,
+        args: ['--no-sandbox', "--disabled-setupid-sandbox"],
+        headless: true,
+        slowMo: 300,
+    });
     try {
-        posttotg('автокрутка запущена 😊')
-        for (let i=0;i<filescount;i++){
+        //posttotg('автокрутка запущена 😊')
+        await dd(browser)
+        //for (let i=0;i<filescount;i++){
             //await botSell(browser,i)
-        }
+        //}
         //await browser.close()
     }catch (e){
         //await browser.close()
         console.log(e)
     }
 
+    async function dd(browser){
+        posttotg('ok')
+        const page = await browser.newPage();
+        await page.goto('https://example.com');
+        await page.screenshot({path: 'example.png'});
 
+        await browser.close();
+    }
     //----------------------------function---------------------------
     async function botSell(browser,i) {
         const page = await browser.newPage();
