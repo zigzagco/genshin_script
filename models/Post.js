@@ -8,6 +8,9 @@ const schema = new Schema({
     title:{
         type: String
     },
+    items:{
+        type: Array
+    },
     meta: {
         createdAt: {
             type: Date,

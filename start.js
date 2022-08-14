@@ -10,6 +10,7 @@ const Post = require("./models/Post");
 
 const start= new Date().getTime();
 var listOfObjects = [];
+const dir = './cookies_bank/';
 (async () => {
     console.log("script started")
     await botRun()
@@ -22,15 +23,18 @@ var listOfObjects = [];
         });
         const page = await browser.newPage();
         await page.setDefaultNavigationTimeout(0);
-        await page.setViewport({width: 1419,height: 668})
+        await page.setViewport({width: 1219,height: 668})
             await page.goto('https://genshindrop.com')
-            const cookiesString = await fs.readFile('./cookies_bank/cookie'+6+'.json');
+            const cookiesString = await fs.readFile('./cookies_bank/cookie'+2+'.json');
             const cookiesd = JSON.parse(cookiesString);
             await page.setCookie(...cookiesd);
             await page.goto("https://genshindrop.com",{ waitUntil: 'networkidle2' });
+        console.log("end")
         await page.waitForTimeout(300000)
         await browser.close();
     }
     const end = new Date().getTime();
     console.log('Time to execute:' + (end - start)/1000 +'sec');
+
+
 })();
