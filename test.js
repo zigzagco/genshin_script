@@ -31,6 +31,7 @@ const token = "5585280260:AAH-TP7PBknDFn5hMSLJYem18lWKaxGXKqo";
     let revisionInfo = await browserFetcher.download('884014');
     const browser = await puppeteer.launch({
         executablePath: revisionInfo.executablePath,
+        ignoreDefaultArgs: ['--disable-extensions'],
         args: ['--no-sandbox', "--disabled-setupid-sandbox"],
         headless: true,
         slowMo: 300,
