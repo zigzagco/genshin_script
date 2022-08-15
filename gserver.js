@@ -31,7 +31,7 @@ fs.readdir(dir).then(r => {
     //========== Server script ===========
     const hour=21600000
     const notify=1800000
-    //setInterval(async function intervalFunc() {
+    setInterval(async function intervalFunc() {
         posttotg('автокрутка начата 6h')
         const browser = await puppeteer.launch({ ignoreDefaultArgs: ['--disable-extensions'],headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'] });
         try {
@@ -45,7 +45,7 @@ fs.readdir(dir).then(r => {
             console.log(e)
         }
 
-    //}, hour);
+    }, hour);
     setInterval(async function intervalFunc() {
         if (iter>=hour){
             iter=0
