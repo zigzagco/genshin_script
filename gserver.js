@@ -33,7 +33,7 @@ fs.readdir(dir).then(r => {
     const notify=1800000
     //setInterval(async function intervalFunc() {
         posttotg('автокрутка начата 6h')
-        const browser = await puppeteer.launch({ executablePath: '/usr/bin/google-chrome-stable', headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'] });
+        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'] });
         try {
             posttotg('автокрутка запущена 😊')
             for (let i=0;i<filescount;i++){
