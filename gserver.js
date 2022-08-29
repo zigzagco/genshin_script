@@ -56,7 +56,7 @@ let iter = 0;
     async function botSell(i) {
         const browser = await puppeteer.launch({
             ignoreDefaultArgs: ['--disable-extensions'],
-            headless: false,
+            headless: true,
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
         });
         try {
