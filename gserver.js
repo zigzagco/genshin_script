@@ -21,10 +21,10 @@ let iter = 0;
         filescount = files.length - 1
     })
     const bot = new Telegraf(token)
-    bot.command('getiteminfo',() => {
+    bot.command('getiteminfo',(ctx) => {
         posttotg("бот работает, и это хорошо)")
     })
-    bot.command('accauntinfo',() =>{
+    bot.command('accauntinfo',(ctx) =>{
         posttotg("бот работает, и это хорошо)")
     })
     await bot.launch()
