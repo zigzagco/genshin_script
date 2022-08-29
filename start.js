@@ -25,7 +25,7 @@ const dir = './cookies_bank/';
         await page.setDefaultNavigationTimeout(0);
         await page.setViewport({width: 1219,height: 668})
             await page.goto('https://genshindrop.com')
-            const cookiesString = await fs.readFile('./cookies_bank/cookie'+2+'.json');
+            const cookiesString = await fs.readFile('./cookies_bank/cookie'+13+'.json');
             const cookiesd = JSON.parse(cookiesString);
             await page.setCookie(...cookiesd);
             await page.goto("https://genshindrop.com",{ waitUntil: 'networkidle2' });
