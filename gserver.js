@@ -21,10 +21,10 @@ let iter = 0;
         filescount = files.length - 1
     })
     const bot = new Telegraf(token)
-    bot.command('getiteminfo',(ctx) => {
+    bot.command('getiteminfo',() => {
         posttotg("бот работает, и это хорошо)")
     })
-    bot.command('accauntinfo',(ctx) =>{
+    bot.command('accauntinfo',() =>{
         posttotg("бот работает, и это хорошо)")
     })
     await bot.launch()
@@ -54,13 +54,13 @@ let iter = 0;
 
     //----------------------------function---------------------------
     async function botSell(i) {
+        const browser = await puppeteer.launch({
+            ignoreDefaultArgs: ['--disable-extensions'],
+            headless: false,
+            args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
+        });
         try {
             console.log("count is "+i)
-            const browser = await puppeteer.launch({
-                ignoreDefaultArgs: ['--disable-extensions'],
-                headless: false,
-                args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
-            });
             const page = await browser.newPage();
             await page.setDefaultNavigationTimeout(0);
             await page.setViewport({width: 1200, height: 668})
