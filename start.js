@@ -30,7 +30,7 @@ const dir = './cookies_bank/';
             await page.setCookie(...cookiesd);
             await page.goto("https://genshindrop.com",{ waitUntil: 'networkidle2' });
         console.log("end")
-        await page.waitForTimeout(300000)
+        await page.waitForTimeout(500000)
         await browser.close();
     }
     const end = new Date().getTime();

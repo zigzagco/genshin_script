@@ -56,7 +56,7 @@ let iter = 0;
     async function botSell(i) {
         const browser = await puppeteer.launch({
             ignoreDefaultArgs: ['--disable-extensions'],
-            headless: true,
+            headless: false,
             args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu']
         });
         try {
@@ -72,8 +72,8 @@ let iter = 0;
                 try {
                     try {
                         await page.goto("https://genshindrop.com/case/24-chasa-oskolki", {waitUntil: 'networkidle2'});
-                        await page.waitForSelector('#app > div.container-fluid > div > main > div:nth-child(3) > section > div.row.box-page > div:nth-child(4) > button')
-                        await page.click('#app > div.container-fluid > div > main > div:nth-child(3) > section > div.row.box-page > div:nth-child(4) > button')
+                        await page.waitForSelector('#app > div.container-fluid > main > section > div.row.box-page > div:nth-child(4) > button')
+                        await page.click('#app > div.container-fluid > main > section > div.row.box-page > div:nth-child(4) > button')
                         await page.waitForSelector('#goRoll')
                         await page.waitForTimeout(10000)
                         await page.click('#goRoll')
@@ -89,7 +89,9 @@ let iter = 0;
                     const arr = await page.evaluate(() => Array.from(document.getElementsByClassName('profile-item-left-name'), e => e.innerText));
                     console.log(value)
                     console.log(arr)
-                    posttotg("Баланс:" + value.toString() + "\n" + "предметы: " + arr)
+                    posttotg(
+
+                        "Баланс:" + value.toString() + "\n" + "предметы: " + arr)
                 } catch (e) {
                     console.log("предметов нет")
                     posttotg("предметов нет 😔")
